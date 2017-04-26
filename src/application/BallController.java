@@ -1,3 +1,4 @@
+package application;
 
 /**
 * The specifics of the control of a Ball
@@ -10,13 +11,13 @@ class BallController implements GameObjectController{
 	* What happens when the ball collides
 	* 	aka. the bouncing code
 	*/
-	public collided(){
-	//make the ball bounce off the object (can be done with the point of 
-	//contact on the ball, and the angle of the tangent of the 
-	//surface it's bouncing off)
-	
+	@Override
+	public void collided() {
+		//make the ball bounce off the object (can be done with the point of 
+		//contact on the ball, and the angle of the tangent of the 
+		//surface it's bouncing off)
+		
 	}
-	
 
 	/**
 	* Every tick
@@ -24,15 +25,21 @@ class BallController implements GameObjectController{
 	*	Checks are made for collisions
 	*		collision checks done in Game class?
 	*/
-	public tick(){
-		_gameObject.move();
+	@Override
+	public void tick() {
+		// TODO Auto-generated method stub
+		
 	}
 
-	
+
 	/**
 	* Sets the ball being controlled
 	* several balls have one controller?
 	*	several balls have another instance of the same controller
 	*/
-	public setObject(){}
+	@Override
+	public void setObject() {
+		// TODO Auto-generated method stub
+		
+	}
 }
