@@ -27,14 +27,20 @@ public class Game extends Application {
 
 	Image playerImage;
 	Image enemyImage;
+	Image ballImage;
+	Image batImage;
 
 	List<Player> players = new ArrayList<>();
 	List<Enemy> enemies = new ArrayList<>();
+	List<Ball> balls = new ArrayList<>();
+	List<Bat> bats = new ArrayList<>();
 
 	Text collisionText = new Text();
 	boolean collision = false;
 
 	Scene scene;
+	
+	//Input input;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -49,6 +55,8 @@ public class Game extends Application {
 		root.getChildren().add( scoreLayer);
 
 		scene = new Scene( root, Settings.SCENE_WIDTH, Settings.SCENE_HEIGHT);
+		//input = new Input(scene);
+		//input.addListeners();
 
 		primaryStage.setScene( scene);
 		primaryStage.show();
@@ -57,6 +65,8 @@ public class Game extends Application {
 
 		createScoreLayer();
 		createPlayers();
+		createBalls();
+		createBats();
 
 		AnimationTimer gameLoop = new AnimationTimer() {
 
@@ -65,6 +75,7 @@ public class Game extends Application {
 
 				// player input
 				players.forEach(sprite -> sprite.processInput());
+				bats.forEach(sprite -> sprite.processInput());
 
 				// add random enemies
 				spawnEnemies( true);
@@ -72,6 +83,8 @@ public class Game extends Application {
 				// movement
 				players.forEach(sprite -> sprite.move());
 				enemies.forEach(sprite -> sprite.move());
+				balls.forEach(sprite -> sprite.move());
+				bats.forEach(sprite -> sprite.move());
 
 				// check collisions
 				checkCollisions();
@@ -79,6 +92,8 @@ public class Game extends Application {
 				// update sprites in scene
 				players.forEach(sprite -> sprite.updateUI());
 				enemies.forEach(sprite -> sprite.updateUI());
+				balls.forEach(sprite -> sprite.updateUI());
+				bats.forEach(sprite -> sprite.updateUI());
 
 				// check if sprite can be removed
 				enemies.forEach(sprite -> sprite.checkRemovability());
@@ -98,6 +113,8 @@ public class Game extends Application {
 	private void loadGame() {
 		playerImage = new Image( getClass().getResource("player.png").toExternalForm());
 		enemyImage = new Image( getClass().getResource("enemy.png").toExternalForm());
+		ballImage = new Image( getClass().getResource("ball.png").toExternalForm());
+		batImage = new Image( getClass().getResource("bat.png").toExternalForm());
 	}
 
 	private void createScoreLayer() {
@@ -120,6 +137,45 @@ public class Game extends Application {
 
 
 	}
+	
+	private void createBalls(){
+		
+		//image of the ball
+		Image image = ballImage;
+		
+		//center horizontally and vertically
+		double x = (Settings.SCENE_WIDTH - image.getWidth()) / 2.0;
+		double y = (Settings.SCENE_HEIGHT - image.getHeight()) / 2.0;
+		
+		//create ball
+		Ball ball = new Ball(playfieldLayer, image, x, y, 0, 0, 0, 0, Settings.BALL_HEALTH, 0, Settings.BALL_SPEED);
+	
+		//register ball
+		balls.add(ball);
+	}
+	
+	private void createBats(){
+		
+		// player input
+		Input input = new Input( scene);
+
+		// register input listeners
+		input.addListeners(); // TODO: remove listeners on game over
+		
+		//get image
+		Image image = batImage;
+		
+		//center on screen
+		double x = (Settings.SCENE_WIDTH - image.getWidth()) / 2.0;
+		double y = (Settings.SCENE_HEIGHT - image.getHeight()) / 2.0;
+		
+		//create bat
+		Bat bat = new Bat(playfieldLayer, image, x, y, 0,0,0,0, Settings.BAT_HEALTH, 0, Settings.BAT_SPEED, input);
+		
+		//register bat
+		bats.add(bat);
+	}
+	
 	private void createPlayers() {
 
 		// player input

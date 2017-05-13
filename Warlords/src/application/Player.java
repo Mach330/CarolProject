@@ -32,7 +32,7 @@ public class Player extends SpriteBase {
 		playerShipMinX = 0 - image.getWidth() / 2.0;
 		playerShipMaxX = Settings.SCENE_WIDTH - image.getWidth() / 2.0;
 		playerShipMinY = 0 - image.getHeight() / 2.0;
-		playerShipMaxY = Settings.SCENE_HEIGHT -image.getHeight() / 2.0;
+		playerShipMaxY = Settings.SCENE_HEIGHT - image.getHeight() / 2.0;
 
 	}
 
